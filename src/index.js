@@ -20,6 +20,20 @@ app.get('/historicoIPCA/:idipca', (req, res) => {
   res.json(buscarIpcaId);
 });
 
+/* Essa rota permite os parametros {valor, mesInicial, anoInicial, mesFinal, anoFinal} para que posteriormente seja calculado o valor do IPCA referente ao periodo informado do usuario */
+app.get('/historicoIPCACalculo', (req, res) => {
+  const { valor, mesInicial, anoInicial, mesFinal, anoFinal } = req.query;
+  const ObjetoParams = {
+    valor: parseInt(valor),
+    mesInicial: parseInt(mesInicial),
+    anoInicial: parseInt(anoInicial),
+    mesFinal: parseInt(mesFinal),
+    anoFinal: parseInt(anoFinal),
+  }
+
+  res.json(ObjetoParams)
+});
+
 app.listen(3000, () => {
   let data = new Date();
   console.log(`Servidor rodando na PORT 3000 e em execução desde: ${data.toLocaleString()}`);
