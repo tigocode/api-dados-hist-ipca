@@ -1,15 +1,12 @@
 const express = require('express');
 const app = express();
-const dadosIPCA =  require('./data/dados');
+const { buscarColecao, buscarAno, buscarIPCAId } = require('./service/servicos');
 
-const buscarAno = (ano) => {
-  return dadosIPCA.filter(ipca => ipca.ano === ano);
-}
 /* Essa rota permite redenrizar toda a colecao e tambem consultar itens que tenham o mesmo ano na colecao */
 app.get('/historicoIPCA', (req, res) => {
   const ipcaAno = parseInt(req.query.ano);
 
-  const buscarIpcaAno = ipcaAno ? buscarAno(ipcaAno) : dadosIPCA;
+  const buscarIpcaAno = ipcaAno ? buscarAno(ipcaAno) : buscarColecao();
 
   res.json(buscarIpcaAno);
 });
@@ -18,7 +15,7 @@ app.get('/historicoIPCA', (req, res) => {
 app.get('/historicoIPCA/:idipca', (req, res) => {
   const idIpca = parseInt(req.params.idipca);
 
-  const buscarIpcaId = dadosIPCA.find(ipca => ipca.id === idIpca);
+  const buscarIpcaId = buscarIPCAId(idIpca);
 
   res.json(buscarIpcaId);
 });
