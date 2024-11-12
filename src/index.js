@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const { buscarColecao, buscarAno, buscarIPCAId } = require('./service/servicos');
+const { buscarColecao, buscarAno, buscarIPCAId, calcularIPCA } = require('./service/servicos');
 
 /* Essa rota permite redenrizar toda a colecao e tambem consultar itens que tenham o mesmo ano na colecao */
 app.get('/historicoIPCA', (req, res) => {
@@ -30,7 +30,7 @@ app.get('/historicoIPCACalculo', (req, res) => {
     mesFinal: parseInt(mesFinal),
     anoFinal: parseInt(anoFinal),
   }
-
+  const resultado = calcularIPCA(ObjetoParams);
   res.json(ObjetoParams)
 });
 

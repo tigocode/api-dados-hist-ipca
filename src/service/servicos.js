@@ -13,11 +13,18 @@ const buscarIPCAId = (idIpca) => {
 }
 
 const calcularIPCA = (ObjetoParams) => {
-  
+  let teste = '';
+  for (let ipca of dadosIPCA) {
+    teste = ipca.mes >= ObjetoParams.mesInicial && ipca.mes <= ObjetoParams.mesFinal;
+    console.log(teste);
+  }
+
+ /*  return resultado; */
 }
 
 module.exports = {
   buscarColecao,
   buscarAno,
-  buscarIPCAId
+  buscarIPCAId,
+  calcularIPCA
 }
