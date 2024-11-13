@@ -1,4 +1,4 @@
-const dadosIPCA =  require('../data/dados');
+const dadosIPCA = require('../data/dados');
 
 const buscarColecao = () => {
   return dadosIPCA;
@@ -13,13 +13,17 @@ const buscarIPCAId = (idIpca) => {
 }
 
 const calcularIPCA = (ObjetoParams) => {
-  let teste = '';
-  for (let ipca of dadosIPCA) {
-    teste = ipca.mes >= ObjetoParams.mesInicial && ipca.mes <= ObjetoParams.mesFinal;
-    console.log(teste);
-  }
+  const ipcaFiltrado = dadosIPCA.filter(ipca => (ipca.mes >= ObjetoParams.mesInicial && ipca.ano >= ObjetoParams.anoInicial) && (ipca.mes <= ObjetoParams.mesFinal && ipca.ano <= ObjetoParams.anoFinal));
 
- /*  return resultado; */
+
+
+  let resultado = ObjetoParams.valor;
+  for (let ipcaValor of ipcaFiltrado) {
+    resultado = resultado * (1 + (ipcaValor.ipca / ObjetoParams.valor))
+    console.log(`Id: ${ipcaValor.id}, Valor: ${resultado}`)
+  }  
+
+  return resultado.toFixed(2);
 }
 
 module.exports = {
