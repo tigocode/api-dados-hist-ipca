@@ -30,8 +30,10 @@ app.get('/historicoIPCACalculo', (req, res) => {
     mesFinal: parseInt(mesFinal),
     anoFinal: parseInt(anoFinal),
   }
+
+
   const resultado = calcularIPCA(ObjetoParams);
-  res.json({resultado: resultado})
+  res.json({ resultado: resultado })
 });
 
 app.listen(3000, () => {

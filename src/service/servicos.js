@@ -13,18 +13,17 @@ const buscarIPCAId = (idIpca) => {
 }
 
 const calcularIPCA = (ObjetoParams) => {
-  const ipcaFiltrado = dadosIPCA.filter(ipca => (ipca.mes >= ObjetoParams.mesInicial && ipca.ano >= ObjetoParams.anoInicial) && (ipca.mes <= ObjetoParams.mesFinal && ipca.ano <= ObjetoParams.anoFinal));
-
-
+  
+  const ipcaFiltrado = dadosIPCA.filter(ipca =>  (ipca.ano > ObjetoParams.anoInicial || (ipca.ano === ObjetoParams.anoInicial && ipca.mes >= ObjetoParams.mesInicial)) && (ipca.ano < ObjetoParams.anoFinal || (ipca.ano === ObjetoParams.anoFinal && ipca.mes <= ObjetoParams.mesFinal)));
 
   let resultado = ObjetoParams.valor;
   for (let ipcaValor of ipcaFiltrado) {
-    resultado = resultado * (1 + (ipcaValor.ipca / ObjetoParams.valor))
-    console.log(`Id: ${ipcaValor.id}, Valor: ${resultado}`)
+    resultado *= (1 + (ipcaValor.ipca / ObjetoParams.valor))
   }  
 
   return resultado.toFixed(2);
 }
+
 
 module.exports = {
   buscarColecao,
