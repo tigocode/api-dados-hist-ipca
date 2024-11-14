@@ -6,14 +6,21 @@ const { buscarColecao, buscarAno, buscarIPCAId, calcularIPCA } = require('./serv
 app.get('/historicoIPCA', (req, res) => {
   const ipcaAno = parseInt(req.query.ano);
 
-  const buscarIpcaAno = ipcaAno ? buscarAno(ipcaAno) : buscarColecao();
+  if (ipcaAno >= 2015 && ipcaAno <= 2023 || req.query.ano === undefined) {
+    const buscarIpcaAno = ipcaAno ? buscarAno(ipcaAno) : buscarColecao();
 
-  res.json(buscarIpcaAno);
+    res.json(buscarIpcaAno);
+  } else if (isNaN(ipcaAno)) {
+    res.status(404).json({ messagem: `O dado ${ipcaAno} não é um ano valido!` });
+  } else {
+    res.status(404).json({ messagem: `Nenhum historico encontrado para o ano: ${ipcaAno}!` });
+  }
 });
 
 /* Essa rota permite consutar um item na colecao atraves do id */
 app.get('/historicoIPCA/:idipca', (req, res) => {
   const idIpca = parseInt(req.params.idipca);
+
 
   const buscarIpcaId = buscarIPCAId(idIpca);
 
