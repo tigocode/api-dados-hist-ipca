@@ -21,10 +21,12 @@ app.get('/historicoIPCA', (req, res) => {
 app.get('/historicoIPCA/:idipca', (req, res) => {
   const idIpca = parseInt(req.params.idipca);
 
-
   const buscarIpcaId = buscarIPCAId(idIpca);
-
-  res.json(buscarIpcaId);
+  if (buscarIpcaId) {
+    res.json(buscarIpcaId);
+  } else {
+    res.status(404).json({ messagem: "O Id informado é do tipo errado ou não existe!" });
+  }
 });
 
 /* Essa rota permite os parametros {valor, mesInicial, anoInicial, mesFinal, anoFinal} para que posteriormente seja calculado o valor do IPCA referente ao periodo informado do usuario */
@@ -38,9 +40,14 @@ app.get('/historicoIPCACalculo', (req, res) => {
     anoFinal: parseInt(anoFinal),
   }
 
+  if ((ObjetoParams.mesInicial && ObjetoParams.anoInicial) < (ObjetoParams.mesFinal && ObjetoParams.anoFinal)) {
+    const resultado = calcularIPCA(ObjetoParams);
+    res.json({ resultado: resultado })
+  } else {
+    res.status(400).json({messagem: "O mes/ano incial não pode ser maior que o mes/ano final!"});
+  }
 
-  const resultado = calcularIPCA(ObjetoParams);
-  res.json({ resultado: resultado })
+
 });
 
 app.listen(3000, () => {
